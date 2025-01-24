@@ -112,7 +112,7 @@ SUID_PERM=4555
 # search folders;
 # --------------------------------------------------------------------
 
-VPATH=../applets:../debian:../docbook:../docbook2:../ether:../key:../mdio:../mme:../nda:../nodes:../nvm:../patches:../pib:../plc:../qca:../ram:../scripts:../serial:../support:../tools
+VPATH=../applets:../debian:../docbook:../docbook2:../ether:../key:../mdio:../mme:../nda:../nodes:../nvm:../patches:../pib:../plc:../qca:../ram:../scripts:../slac:../serial:../support:../tools
 
 # ====================================================================
 # types and targets;

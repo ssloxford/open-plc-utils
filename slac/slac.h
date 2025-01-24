@@ -116,7 +116,6 @@
 
 #define SLAC_CM_SETKEY_KEYTYPE 0x01
 #define SLAC_CM_SETKEY_PID 0x04
-#define SLAC_CM_SETKEY_PRN 0x00
 #define SLAC_CM_SETKEY_PMN 0x00
 #define SLAC_CM_SETKEY_CCO 0x00
 #define SLAC_CM_SETKEY_EKS 0x01
@@ -301,7 +300,8 @@ typedef struct __packed cm_mnbc_sound_indicate
 		uint8_t SenderID [SLAC_UNIQUE_ID_LEN];
 		uint8_t CNT;
 		uint8_t RunID [SLAC_RUNID_LEN];
-		uint8_t RND [SLAC_UNIQUE_ID_LEN];
+		uint8_t RSVD [8];
+		uint8_t RND [16];
 	}
 	MSVarField;
 }
@@ -423,6 +423,8 @@ signed slac_debug (struct session * session, signed status, char const * string,
 /*====================================================================*
  *
  *--------------------------------------------------------------------*/
+
+void slac_memrand(void* buffer, unsigned int length);
 
 #endif
 

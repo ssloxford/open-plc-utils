@@ -259,7 +259,7 @@ static void UnoccupiedState (struct session * session, struct channel * channel,
 	slac_session (session);
 	slac_debug (session, 0, __func__, "Listening ...");
 	while (evse_cm_slac_param (session, channel, message));
-	session->state = EVSE_STATE_UNMATCHED;
+	session->state = EVSE_STATE_UNOCCUPIED;
 	return;
 }
 

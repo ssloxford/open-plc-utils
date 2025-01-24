@@ -76,6 +76,7 @@ signed pev_cm_atten_char (struct session * session, struct channel * channel, st
 			session->NUM_SOUNDS = indicate->ACVarField.NUM_SOUNDS;
 			session->NumGroups = indicate->ACVarField.ATTEN_PROFILE.NumGroups;
 			memcpy (session->AAG, indicate->ACVarField.ATTEN_PROFILE.AAG, indicate->ACVarField.ATTEN_PROFILE.NumGroups);
+			memcpy (session->EVSE_ID, indicate->ACVarField.RESP_ID, sizeof (session->EVSE_ID));
 
 #if SLAC_DEBUG
 
@@ -105,6 +106,8 @@ signed pev_cm_atten_char (struct session * session, struct channel * channel, st
 			memcpy (response->ACVarField.RunID, session->RunID, sizeof (response->ACVarField.RunID));
 			memset (response->ACVarField.SOURCE_ID, 0, sizeof (response->ACVarField.SOURCE_ID));
 			memset (response->ACVarField.RESP_ID, 0, sizeof (response->ACVarField.RESP_ID));
+			//memcpy (response->ACVarField.SOURCE_ID, session->PEV_ID, sizeof (response->ACVarField.SOURCE_ID));
+			//memcpy (response->ACVarField.RESP_ID, session->EVSE_ID, sizeof (response->ACVarField.RESP_ID));
 			response->ACVarField.Result = 0;
 			if (sendmessage (channel, message, sizeof (* response)) <= 0)
 			{

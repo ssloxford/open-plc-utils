@@ -100,6 +100,26 @@ void slac_session (struct session * session)
 	return;
 }
 
+
+uint16_t random_16_bit() {
+	static uint16_t counter = 137;
+	uint16_t random_val = ++counter;
+	random_val = random_val * 12889;
+	random_val = random_val ^ 0xf05d;
+	return random_val;
+}
+
+void slac_memrand(void* buffer, unsigned int length) {
+	while(length >= 2) {
+		(*(uint16_t*)buffer) = random_16_bit();
+		buffer += 2;
+		length -= 2;
+	}
+	if (length > 0) {
+		*(uint8_t*)buffer = random_16_bit();
+	}
+}
+
 #endif
 
 

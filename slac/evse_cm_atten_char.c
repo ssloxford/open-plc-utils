@@ -76,6 +76,8 @@ signed evse_cm_atten_char (struct session * session, struct channel * channel, s
 	memcpy (indicate->ACVarField.RunID, session->RunID, sizeof (indicate->ACVarField.RunID));
 	memset (indicate->ACVarField.SOURCE_ID, 0, sizeof (indicate->ACVarField.SOURCE_ID));
 	memset (indicate->ACVarField.RESP_ID, 0, sizeof (indicate->ACVarField.RESP_ID));
+	//memcpy (indicate->ACVarField.SOURCE_ID, session->PEV_ID, sizeof (indicate->ACVarField.SOURCE_ID));
+	//memcpy (indicate->ACVarField.RESP_ID, session->EVSE_ID, sizeof (indicate->ACVarField.RESP_ID));
 	indicate->ACVarField.NUM_SOUNDS = session->sounds;
 	indicate->ACVarField.ATTEN_PROFILE.NumGroups = session->NumGroups;
 	memcpy (indicate->ACVarField.ATTEN_PROFILE.AAG, session->AAG, session->NumGroups);
@@ -88,6 +90,7 @@ signed evse_cm_atten_char (struct session * session, struct channel * channel, s
 		if (! memcmp (session->RunID, response->ACVarField.RunID, sizeof (session->RunID)))
 		{
 			slac_debug (session, 0, __func__, "<-- CM_ATTEN_CHAR.RSP");
+			memcpy (session->PEV_ID, indicate->ACVarField.SOURCE_ID, sizeof (session->PEV_ID));
 
 #if SLAC_DEBUG
 

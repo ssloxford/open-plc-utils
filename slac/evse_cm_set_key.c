@@ -116,10 +116,10 @@ signed evse_cm_set_key (struct session * session, struct channel * channel, stru
 	EthernetHeader (& request->ethernet, channel->peer, channel->host, channel->type);
 	HomePlugHeader1 (& request->homeplug, HOMEPLUG_MMV, (CM_SET_KEY | MMTYPE_REQ));
 	request->KEYTYPE = SLAC_CM_SETKEY_KEYTYPE;
-	memset (& request->MYNOUNCE, 0xAA, sizeof (request->MYNOUNCE));
+	slac_memrand (& request->MYNOUNCE, sizeof(request->MYNOUNCE));
 	memset (& request->YOURNOUNCE, 0x00, sizeof (request->YOURNOUNCE));
 	request->PID = SLAC_CM_SETKEY_PID;
-	request->PRN = HTOLE16 (SLAC_CM_SETKEY_PRN);
+	slac_memrand (& request->PRN, sizeof(request->PRN));
 	request->PMN = SLAC_CM_SETKEY_PMN;
 	request->CCOCAP = SLAC_CM_SETKEY_CCO;
 	memcpy (request->NID, session->NID, sizeof (request->NID));

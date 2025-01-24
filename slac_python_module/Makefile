@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# file: slac/Makefile
+# file: slac_python_module/Makefile
 
 # ====================================================================
 # environment definitions;
@@ -11,12 +11,13 @@ include ../make.def
 # symbols;
 # --------------------------------------------------------------------
 
-# CFLAGS+= -DSLAC_DEBUG
+PYTHON_VERSION = 3.11
+
+CFLAGS+=
 LDFLAGS+=
-TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] 
-FILES=Makefile *.mak *.sh *.c *.h 
-TOOLS=evse pev
-PAGES=evse.1 pev.1
+TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
+FILES=Makefile *.mak *.sh *.c *.h
+TOOLS=slac_wrapper.so
 
 # ====================================================================
 # pseudo targets;
@@ -39,13 +40,11 @@ uninstall:
 	cd ${MAN}; rm -f ${PAGES}
 clean:
 	rm -f ${TRASH} ${TOOLS}
-check:
-	${SHELL} slac.sh
 ignore:
 	echo ${TOOLS} | tr ' ' '\n' > .gitignore
 
 # ====================================================================
-# rules;        
+# rules;
 # --------------------------------------------------------------------
 
 %: %.o
@@ -55,11 +54,19 @@ ignore:
 %.h: %.h
 
 # ====================================================================
-# programs;     
+# programs;
 # --------------------------------------------------------------------
 
-evse: evse.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o evse_cm_atten_char.o evse_cm_mnbc_sound.o evse_cm_slac_match.o evse_cm_slac_param.o evse_cm_start_atten_char.o evse_cm_set_key.o getoptv.o hexdecode.o hexdump.o hexencode.o hexout.o hexstring.o initchannel.o openchannel.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o desuid.o
-pev: pev.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o getoptv.o hexdecode.o hexdump.o hexencode.o hexstring.o memincr.o initchannel.o openchannel.o pev_cm_atten_char.o pev_cm_mnbc_sound.o pev_cm_slac_match.o pev_cm_slac_param.o pev_cm_start_atten_char.o pev_cm_set_key.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_connect.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o desuid.o
+slac_wrapper.so: slac_wrapper.o mod_main.o adc_wrapper.o plc_wrapper.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o hexdecode.o hexdump.o hexencode.o hexstring.o memincr.o initchannel.o openchannel.o pev_cm_atten_char.o pev_cm_mnbc_sound.o pev_cm_slac_match.o pev_cm_slac_param.o pev_cm_start_atten_char.o pev_cm_set_key.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_connect.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o desuid.o evse_cm_atten_char.o evse_cm_mnbc_sound.o evse_cm_slac_match.o evse_cm_slac_param.o evse_cm_start_atten_char.o evse_cm_set_key.o hexout.o chipset.o checksum32.o QualcommHeader1.o typename.o
+	${CC} -shared -o ${@} ${^} ${LDFLAGS} -g -fPIC
+slac_wrapper.o: slac_wrapper.c py_module.h adc_wrapper.h
+	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC -I/usr/include/python$(PYTHON_VERSION)
+adc_wrapper.o: adc_wrapper.c adc_wrapper.h
+	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC
+plc_wrapper.o: plc_wrapper.c py_module.h
+	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC -I/usr/include/python$(PYTHON_VERSION)
+mod_main.o: mod_main.c py_module.h
+	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC -I/usr/include/python$(PYTHON_VERSION)
 
 # ====================================================================
 # includes;

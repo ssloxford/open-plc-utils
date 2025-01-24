@@ -103,7 +103,7 @@ signed evse_cm_slac_param (struct session * session, struct channel * channel, s
 	struct cm_slac_param_confirm * confirm = (struct cm_slac_param_confirm *) (message);
 	while (readmessage (channel, message, HOMEPLUG_MMV, (CM_SLAC_PARAM | MMTYPE_REQ)) > 0)
 	{
-		slac_debug (session, 0, __func__, "<-- CM_SLAC_PARAM.REQ");
+		//slac_debug (session, 0, __func__, "<-- CM_SLAC_PARAM.REQ");
 		session->APPLICATION_TYPE = request->APPLICATION_TYPE;
 		session->SECURITY_TYPE = request->SECURITY_TYPE;
 		memcpy (session->PEV_MAC, request->ethernet.OSA, sizeof (session->PEV_MAC));
@@ -125,14 +125,14 @@ signed evse_cm_slac_param (struct session * session, struct channel * channel, s
 
 #endif
 
-		if (_anyset (session->flags, SLAC_COMPARE))
+		/*if (_anyset (session->flags, SLAC_COMPARE))
 		{
 			if (LE16TOH (request->CipherSuite [0]) != (uint16_t) (session->counter))
 			{
 				slac_debug (session, session->exit, __func__, "session->counter mismatch! PEV=(%d) EVSE=(%d)", LE16TOH (request->CipherSuite [0]), session->counter);
 			}
-		}
-		slac_debug (session, 0, __func__, "--> CM_SLAC_PARAM.CNF");
+		}*/
+		//slac_debug (session, 0, __func__, "--> CM_SLAC_PARAM.CNF");
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (& confirm->ethernet, session->PEV_MAC, channel->host, channel->type);
 		HomePlugHeader1 (& confirm->homeplug, HOMEPLUG_MMV, (CM_SLAC_PARAM | MMTYPE_CNF));

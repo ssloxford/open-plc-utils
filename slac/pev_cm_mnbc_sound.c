@@ -83,7 +83,7 @@ signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, st
 		memcpy (indicate->MSVarField.SenderID, session->PEV_ID, sizeof (indicate->MSVarField.SenderID));
 		indicate->MSVarField.CNT = sound;
 		memcpy (indicate->MSVarField.RunID, session->RunID, sizeof (indicate->MSVarField.RunID));
-		memset (indicate->MSVarField.RND, 0, sizeof (indicate->MSVarField.RND));
+		slac_memrand (indicate->MSVarField.RND, sizeof (indicate->MSVarField.RND));
 		if (sendmessage (channel, message, sizeof (* indicate)) <= 0)
 		{
 			return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));

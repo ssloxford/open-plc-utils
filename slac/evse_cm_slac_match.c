@@ -105,9 +105,11 @@ signed evse_cm_slac_match (struct session * session, struct channel * channel, s
 			confirm->APPLICATION_TYPE = session->APPLICATION_TYPE;
 			confirm->SECURITY_TYPE = session->SECURITY_TYPE;
 			confirm->MVFLength = HTOLE16 (sizeof (confirm->MatchVarField));
-			memcpy (confirm->MatchVarField.PEV_ID, session->PEV_ID, sizeof (confirm->MatchVarField.PEV_ID));
+			memset (confirm->MatchVarField.PEV_ID, 0, sizeof (confirm->MatchVarField.PEV_ID));
+			//memcpy (confirm->MatchVarField.PEV_ID, session->PEV_ID, sizeof (confirm->MatchVarField.PEV_ID));
 			memcpy (confirm->MatchVarField.PEV_MAC, session->PEV_MAC, sizeof (confirm->MatchVarField.PEV_MAC));
-			memcpy (confirm->MatchVarField.EVSE_ID, session->EVSE_ID, sizeof (confirm->MatchVarField.EVSE_ID));
+			memset (confirm->MatchVarField.EVSE_ID, 0, sizeof (confirm->MatchVarField.EVSE_ID));
+			//memcpy (confirm->MatchVarField.EVSE_ID, session->EVSE_ID, sizeof (confirm->MatchVarField.EVSE_ID));
 			memcpy (confirm->MatchVarField.EVSE_MAC, session->EVSE_MAC, sizeof (confirm->MatchVarField.EVSE_MAC));
 			memcpy (confirm->MatchVarField.RunID, session->RunID, sizeof (confirm->MatchVarField.RunID));
 			memcpy (confirm->MatchVarField.NID, session->NID, sizeof (confirm->MatchVarField.NID));

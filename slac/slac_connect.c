@@ -63,7 +63,7 @@ signed slac_connect (struct session * session)
 
 {
 	unsigned group = 0;
-	unsigned total = 0;
+	int total = 0;
 	if (session->NumGroups > SIZEOF (session->AAG))
 	{
 		return (slac_debug (session, session->exit, __func__, "Too much data to analyse!"));
@@ -73,7 +73,8 @@ signed slac_connect (struct session * session)
 		char string [512];
 		while (group < session->NumGroups)
 		{
-			total += session->AAG [group];
+			int group_val = (int8_t)session->AAG[group];
+			total += group_val;
 			group++;
 		}
 		total /= group;

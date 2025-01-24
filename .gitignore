@@ -11,3 +11,5 @@ t.*
 temp.*
 test.*
 *.a
+*.patch
+.vscode

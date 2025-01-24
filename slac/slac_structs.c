@@ -69,4 +69,3 @@ void slac_structs ()
 	fprintf (stderr, "sizeof struct cm_slac_match_confirm %d\n", sizeof (struct cm_slac_match_confirm));
 	return;
 }
-
