@@ -11,7 +11,7 @@ include ../make.def
 # symbols;
 # --------------------------------------------------------------------
 
-PYTHON_VERSION = 3.11
+PYTHON_INCLUDE = $(shell python3-config --includes)
 
 CFLAGS+=
 LDFLAGS+=
@@ -58,15 +58,15 @@ ignore:
 # --------------------------------------------------------------------
 
 slac_wrapper.so: slac_wrapper.o mod_main.o adc_wrapper.o plc_wrapper.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o hexdecode.o hexdump.o hexencode.o hexstring.o memincr.o initchannel.o openchannel.o pev_cm_atten_char.o pev_cm_mnbc_sound.o pev_cm_slac_match.o pev_cm_slac_param.o pev_cm_start_atten_char.o pev_cm_set_key.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_connect.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o desuid.o evse_cm_atten_char.o evse_cm_mnbc_sound.o evse_cm_slac_match.o evse_cm_slac_param.o evse_cm_start_atten_char.o evse_cm_set_key.o hexout.o chipset.o checksum32.o QualcommHeader1.o typename.o
-	${CC} -shared -o ${@} ${^} ${LDFLAGS} -g -fPIC
+	${CC} -shared -o ${@} ${^} ${LDFLAGS} -g
 slac_wrapper.o: slac_wrapper.c py_module.h adc_wrapper.h
-	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC -I/usr/include/python$(PYTHON_VERSION)
+	${CC} -shared -c ${<} ${CFLAGS} -g $(PYTHON_INCLUDE)
 adc_wrapper.o: adc_wrapper.c adc_wrapper.h
-	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC
+	${CC} -shared -c ${<} ${CFLAGS} -g
 plc_wrapper.o: plc_wrapper.c py_module.h
-	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC -I/usr/include/python$(PYTHON_VERSION)
+	${CC} -shared -c ${<} ${CFLAGS} -g $(PYTHON_INCLUDE)
 mod_main.o: mod_main.c py_module.h
-	${CC} -shared -c ${<} ${CFLAGS} -g -fPIC -I/usr/include/python$(PYTHON_VERSION)
+	${CC} -shared -c ${<} ${CFLAGS} -g $(PYTHON_INCLUDE)
 
 # ====================================================================
 # includes;
